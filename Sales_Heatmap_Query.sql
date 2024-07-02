@@ -147,11 +147,3 @@ WITH FactSalesHeader AS (
 
 SELECT *
 FROM main;
-
-
-/*, main_unpivoted AS (
-    SELECT *
-    FROM main
-    UNPIVOT
-        (Value FOR ValueType IN (SubTotal, TaxAmt, Freight)) AS unpvt
-)*/
