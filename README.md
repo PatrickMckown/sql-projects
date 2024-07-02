@@ -2,7 +2,7 @@
 
 Welcome to my SQL projects repository! This repository contains a collection of SQL scripts and queries that demonstrate my proficiency in SQL using the AdventureWorks2014 database. AdventureWorks2014 is a sample database provided by Microsoft, which simulates a manufacturing company.
 
-Table of Contents
+###Table of Contents
 Introduction
 Prerequisites
 Installation
