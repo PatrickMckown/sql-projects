@@ -62,14 +62,9 @@ The repository is structured as follows:
 ├── README.md
 ├── LICENSE
 ├── queries
-│   ├── sales_analysis.sql
-│   ├── employee_performance.sql
-│   ├── product_inventory.sql
+│   ├── Sales_Heatmap_Query.sql
 │   └── customer_segmentation.sql
 ├── procedures
-│   ├── usp_get_sales_by_region.sql
-│   ├── usp_get_top_customers.sql
-│   └── usp_get_employee_sales_performance.sql
 └── views
     ├── vw_sales_overview.sql
     ├── vw_product_performance.sql
