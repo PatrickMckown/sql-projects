@@ -44,7 +44,6 @@ To get started with the SQL scripts and queries in this repository, follow these
 1. Clone the repository:
 
 ```bash
-Copy code
 git clone https://github.com/yourusername/adventureworks2014-sql-projects.git
 cd adventureworks2014-sql-projects
 ```
