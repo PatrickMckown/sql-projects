@@ -17,11 +17,12 @@ Welcome to my SQL projects repository! This repository contains a collection of 
 ## Prerequisites
 Before you begin, ensure you have the following prerequisites installed:
 
-SQL Server (2014 or later)
-SQL Server Management Studio (SSMS) or any other SQL client
-AdventureWorks2014 database
+* SQL Server (2014 or later)
+* SQL Server Management Studio (SSMS) or any other SQL client
+* AdventureWorks2014 database
 
-##Installation
+## Installation
+
 Download and Install SQL Server: You can download SQL Server from the Microsoft website.
 
 Download and Install SSMS: Get SQL Server Management Studio from the Microsoft website.
