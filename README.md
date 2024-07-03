@@ -63,12 +63,9 @@ The repository is structured as follows:
 ├── LICENSE
 ├── queries
 │   ├── Sales_Heatmap_Query.sql
-│   └── customer_segmentation.sql
+│   └── Sales_Heatmap_Unpivoted_Query.sql
 ├── procedures
 └── views
-    ├── vw_sales_overview.sql
-    ├── vw_product_performance.sql
-    └── vw_customer_activity.sql
 ```
    
 * queries/: Contains individual SQL query scripts demonstrating various analyses and operations.
