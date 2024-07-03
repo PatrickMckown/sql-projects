@@ -58,7 +58,7 @@ Execute the script to see the results.
 ## Project Structure
 The repository is structured as follows:
 
-Copy code
+```Copy code
 .
 ├── README.md
 ├── LICENSE
@@ -75,7 +75,8 @@ Copy code
     ├── vw_sales_overview.sql
     ├── vw_product_performance.sql
     └── vw_customer_activity.sql
-    
+```
+   
 queries/: Contains individual SQL query scripts demonstrating various analyses and operations.
 procedures/: Contains SQL scripts for stored procedures that encapsulate complex business logic.
 views/: Contains SQL scripts for creating views that provide simplified access to complex queries.
