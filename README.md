@@ -41,7 +41,7 @@ WITH MOVE 'AdventureWorks2014_Data' TO 'C:\Program Files\Microsoft SQL Server\MS
 ## Usage
 To get started with the SQL scripts and queries in this repository, follow these steps:
 
-Clone the repository:
+1. Clone the repository:
 
 ```bash
 Copy code
@@ -49,11 +49,11 @@ git clone https://github.com/yourusername/adventureworks2014-sql-projects.git
 cd adventureworks2014-sql-projects
 ```
 
-Open SSMS and connect to your SQL Server instance.
+2. Open SSMS and connect to your SQL Server instance.
 
-Open a new query window and load one of the provided SQL scripts.
+3. Open a new query window and load one of the provided SQL scripts.
 
-Execute the script to see the results.
+4. Execute the script to see the results.
 
 ## Project Structure
 The repository is structured as follows:
@@ -77,18 +77,18 @@ The repository is structured as follows:
     └── vw_customer_activity.sql
 ```
    
-queries/: Contains individual SQL query scripts demonstrating various analyses and operations.
-procedures/: Contains SQL scripts for stored procedures that encapsulate complex business logic.
-views/: Contains SQL scripts for creating views that provide simplified access to complex queries.
+* queries/: Contains individual SQL query scripts demonstrating various analyses and operations.
+* procedures/: Contains SQL scripts for stored procedures that encapsulate complex business logic.
+* views/: Contains SQL scripts for creating views that provide simplified access to complex queries.
 
 ## Contributing
 Contributions are welcome! If you have suggestions for improvements or additional queries/procedures/views, feel free to open an issue or submit a pull request.
 
 Fork the repository.
-Create your feature branch (git checkout -b feature/AmazingFeature).
-Commit your changes (git commit -m 'Add some AmazingFeature').
-Push to the branch (git push origin feature/AmazingFeature).
-Open a pull request.
+1. Create your feature branch (git checkout -b feature/AmazingFeature).
+2. Commit your changes (git commit -m 'Add some AmazingFeature').
+3. Push to the branch (git push origin feature/AmazingFeature).
+4. Open a pull request.
 
 ## License
 This project is licensed under the MIT License - see the LICENSE file for details.
