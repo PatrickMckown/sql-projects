@@ -31,8 +31,7 @@ Before you begin, ensure you have the following prerequisites installed:
 
 4. Restore the AdventureWorks2014 Database: Use SSMS to restore the downloaded AdventureWorks2014 backup file.
 
-```
-sql
+```sql
 Copy code
 RESTORE DATABASE AdventureWorks2014
 FROM DISK = 'path_to_your_backup_file.bak'
