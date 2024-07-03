@@ -23,13 +23,13 @@ Before you begin, ensure you have the following prerequisites installed:
 
 ## Installation
 
-Download and Install SQL Server: You can download SQL Server from the Microsoft website.
+1. Download and Install SQL Server: You can download SQL Server from the Microsoft website.
 
-Download and Install SSMS: Get SQL Server Management Studio from the Microsoft website.
+2. Download and Install SSMS: Get SQL Server Management Studio from the Microsoft website.
 
-Download AdventureWorks2014: You can download the AdventureWorks2014 database from the Microsoft SQL Server Samples repository.
+3. Download AdventureWorks2014: You can download the AdventureWorks2014 database from the Microsoft SQL Server Samples repository.
 
-Restore the AdventureWorks2014 Database: Use SSMS to restore the downloaded AdventureWorks2014 backup file.
+4. Restore the AdventureWorks2014 Database: Use SSMS to restore the downloaded AdventureWorks2014 backup file.
 
 sql
 Copy code
