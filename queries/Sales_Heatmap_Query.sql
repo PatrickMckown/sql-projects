@@ -36,6 +36,7 @@ Challenges and Solutions:
 
 Revision History:
     - 2024-06-30: Initial creation by Patrick McKown.
+	- 2024-07-04: Elimination of Customer Name field and CTE. Field has too many null values to be useful in analysis.
 */
 
 WITH FactSalesHeader AS (
@@ -71,13 +72,6 @@ WITH FactSalesHeader AS (
 		CustomerID
 		, TerritoryID
 	FROM Sales.Customer
-)
-, DimCustomerName AS (
-	SELECT
-		BusinessEntityID
-		, [Name]
-	FROM
-		Sales.Store
 )
 , DimCustomerCountry AS (
 	SELECT
@@ -120,7 +114,6 @@ WITH FactSalesHeader AS (
 		, fsh.OrderDate
 		, fsh.ShipDate
 		, fsh.CustomerID
-		, dcn1.[Name] AS "CustomerName"
 		, fsh.BillToAddressID
 		, dcn.[Name] AS "CountryName"
 		, da.AddressLine1 AS "Address"
@@ -133,7 +126,6 @@ WITH FactSalesHeader AS (
 	FROM FactSalesHeader AS fsh
 	LEFT JOIN DimCustomerAddress AS da ON fsh.BillToAddressID = da.AddressID
 	LEFT JOIN DimCustomerState AS ds ON ds.StateProvinceID = da.StateProvinceID
-	LEFT JOIN DimCustomerName AS dcn1 ON fsh.BillToAddressID = dcn1.BusinessEntityID
 	LEFT JOIN DimCustomerTerritory AS dct ON fsh.CustomerID = dct.CustomerID
 	LEFT JOIN DimCustomerCountry AS dcc ON dct.TerritoryID = dcc.TerritoryID
 	LEFT JOIN DimCountryNames AS dcn ON dcc.CountryRegionCode = dcn.CountryRegionCode
@@ -143,7 +135,6 @@ WITH FactSalesHeader AS (
 		fsh.OrderDate >= '2011-05-31'
 		AND fsh.OrderDate <= '2014-05-31'
 )
-
 
 SELECT *
 FROM main;
