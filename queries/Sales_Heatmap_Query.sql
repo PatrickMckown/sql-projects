@@ -1,12 +1,12 @@
 /*
 Documentation
 
-	Author: Patrick Mckown
+    Author: Patrick Mckown
     Date: 2024-06-30
     Purpose: Retrieve the total sales amount by various levels (country, city, etc.) for 2011-05-31 to 2014-05-31
     Database: AdventureWorks2014
     Dependencies: None
-    Notes: This query is used in the quarterly sales report. Ensure the data is up-to-date before running the query.
+    Notes: None
 
 Returns:
 	A single table "main"
@@ -36,7 +36,7 @@ Challenges and Solutions:
 
 Revision History:
     - 2024-06-30: Initial creation by Patrick McKown.
-	- 2024-07-04: Elimination of Customer Name field and CTE. Field has too many null values to be useful in analysis.
+    - 2024-07-04: Elimination of Customer Name field and CTE. Field has too many null values to be useful in analysis.
 */
 
 WITH FactSalesHeader AS (
