@@ -63,7 +63,8 @@ The repository is structured as follows:
 ├── LICENSE
 ├── queries
 │   ├── Sales_Heatmap_Query.sql
-│   └── Sales_Heatmap_Unpivoted_Query.sql
+│   ├── Sales_Heatmap_Unpivoted_Query.sql
+│   └── Vendor_Scorecard_Query.sql
 ├── procedures
 └── views
 ```
