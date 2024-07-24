@@ -66,6 +66,9 @@ The repository is structured as follows:
 │   ├── Sales_Heatmap_Unpivoted_Query.sql
 │   └── Vendor_Scorecard_Query.sql
 ├── sql-as-excel
+│   ├── SELECT-FROM-WHERE
+│    ├── SELECT-FROM-WHERE SQL.sql
+│    └── SELECT-FROM-WHERE XL.xlsx
 ├── procedures
 └── views
 ```
