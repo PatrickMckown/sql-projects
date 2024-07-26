@@ -66,16 +66,17 @@ The repository is structured as follows:
 │   ├── Sales_Heatmap_Unpivoted_Query.sql
 │   └── Vendor_Scorecard_Query.sql
 ├── sql-as-excel
-│   ├── SELECT-FROM-WHERE
-│    ├── SELECT-FROM-WHERE SQL.sql
-│    └── SELECT-FROM-WHERE XL.xlsx
+│   ├── 1. sql-fundamentals
+│    ├── 1.1 SELECT-FROM-WHERE SQL.sql
+│    └── 1.1 SELECT-FROM-WHERE XL.xlsx
 ├── procedures
 └── views
 ```
    
 * queries/: Contains individual SQL query scripts demonstrating various analyses and operations.
-* procedures/: Contains SQL scripts for stored procedures that encapsulate complex business logic.
-* views/: Contains SQL scripts for creating views that provide simplified access to complex queries.
+* sql-as-excel/: Contains SQL scripts and Excel workbooks that teach SQL through use of analogies to Excel.
+* procedures/: Pending.
+* views/: Pending
 
 ## Contributing
 Contributions are welcome! If you have suggestions for improvements or additional queries/procedures/views, feel free to open an issue or submit a pull request.
