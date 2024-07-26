@@ -67,8 +67,8 @@ The repository is structured as follows:
 │   └── Vendor_Scorecard_Query.sql
 ├── sql-as-excel
 │   ├── 1. sql-fundamentals
-│    ├── 1.1 SELECT-FROM-WHERE SQL.sql
-│    └── 1.1 SELECT-FROM-WHERE XL.xlsx
+│   │   ├── 1.1 SELECT-FROM-WHERE SQL.sql
+│   │   └── 1.1 SELECT-FROM-WHERE XL.xlsx
 ├── procedures
 └── views
 ```
