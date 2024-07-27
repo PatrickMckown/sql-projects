@@ -1,7 +1,7 @@
 /*
 Documentation
 
-	Author: Patrick Mckown
+    Author: Patrick Mckown
     Date: 2024-07-05
     Purpose: Retrieve the total sales amount by various levels (country, city, etc.) for 2011-05-31 to 2014-05-31 in an unpivoted format
     Database: AdventureWorks2014
@@ -9,7 +9,7 @@ Documentation
     Notes: None
 
 Returns:
-	A single table "main_unpivoted"
+	A single table "SalesHeatmapUnpivotedQuery"
 	
 Usage:
 	1. This query is designed for exporting data to Excel or Power BI for visualization and analysis.
@@ -36,6 +36,7 @@ Challenges and Solutions:
 
 Revision History:
     - 2024-07-05: Initial creation by Patrick McKown.
+    - 2024-07-27: Fixed various spacing and formatting issues.
 */
 
 WITH FactSalesHeader AS (
@@ -49,7 +50,8 @@ WITH FactSalesHeader AS (
 		, SubTotal
 		, TaxAmt
 		, Freight
-	FROM Sales.SalesOrderHeader
+	FROM
+		Sales.SalesOrderHeader
 )
 , DimCustomerAddress AS (
 	SELECT
@@ -58,31 +60,36 @@ WITH FactSalesHeader AS (
 		, City
 		, StateProvinceID
 		, PostalCode
-	FROM Person.Address
+	FROM
+		Person.Address
 )
 , DimCustomerState AS (
 	SELECT
 		StateProvinceID
-		, [Name]
-	FROM Person.StateProvince
+		, [Name] -- State/Province Name
+	FROM
+		Person.StateProvince
 )
 , DimCustomerTerritory AS (
 	SELECT
 		CustomerID
 		, TerritoryID
-	FROM Sales.Customer
+	FROM
+		Sales.Customer
 )
 , DimCustomerCountry AS (
 	SELECT
 		TerritoryID
 		, CountryRegionCode
-	FROM Sales.SalesTerritory
+	FROM
+		Sales.SalesTerritory
 )
 , DimCountryNames AS (
 	SELECT
 		CountryRegionCode
-		, [Name]
-	FROM Person.CountryRegion
+		, [Name] -- Country Name
+	FROM
+		Person.CountryRegion
 )
 , DimCountryCurrency AS (
 	SELECT 
@@ -105,9 +112,10 @@ WITH FactSalesHeader AS (
 			WHEN ToCurrencyCode = 'USD' THEN 1
 			ELSE 1 / AverageRate
 		END AS "LCtoUSDExchangeRate"
-		FROM Sales.CurrencyRate
+	FROM
+		Sales.CurrencyRate
 )
-, main AS (
+, SalesHeatmapQuery AS (
 	SELECT
 		fsh.SalesOrderID
 		, fsh.OrderDate
@@ -120,26 +128,38 @@ WITH FactSalesHeader AS (
 		, ds.[Name] AS "Province/State"
 		, da.PostalCode
 		, (fsh.SubTotal * dex.LCtoUSDExchangeRate) AS "SubTotal (USD)"
-		, (fsh.TaxAmt * dex.LCtoUSDExchangeRate) AS "TaxAmt (USD)"
+		, (fsh.TaxAmt * dex.LCtoUSDExchangeRate) AS "Tax (USD)"
 		, (fsh.Freight * dex.LCtoUSDExchangeRate) AS "Freight (USD)"
-	FROM FactSalesHeader AS fsh
-	LEFT JOIN DimCustomerAddress AS da ON fsh.BillToAddressID = da.AddressID
-	LEFT JOIN DimCustomerState AS ds ON ds.StateProvinceID = da.StateProvinceID
-	LEFT JOIN DimCustomerTerritory AS dct ON fsh.CustomerID = dct.CustomerID
-	LEFT JOIN DimCustomerCountry AS dcc ON dct.TerritoryID = dcc.TerritoryID
-	LEFT JOIN DimCountryNames AS dcn ON dcc.CountryRegionCode = dcn.CountryRegionCode
-	LEFT JOIN DimCountryCurrency AS dcc2 ON dcc.CountryRegionCode = dcc2.CountryRegionCode
-	LEFT JOIN DimExchangeRate AS dex ON fsh.OrderDate = dex.CurrencyRateDate AND dcc2.CurrencyCode = dex.ToCurrencyCode
+	FROM
+		FactSalesHeader AS fsh
+	LEFT JOIN
+		DimCustomerAddress AS da ON fsh.BillToAddressID = da.AddressID
+	LEFT JOIN
+		DimCustomerState AS ds ON ds.StateProvinceID = da.StateProvinceID
+	LEFT JOIN
+		DimCustomerTerritory AS dct ON fsh.CustomerID = dct.CustomerID
+	LEFT JOIN
+		DimCustomerCountry AS dcc ON dct.TerritoryID = dcc.TerritoryID
+	LEFT JOIN
+		DimCountryNames AS dcn ON dcc.CountryRegionCode = dcn.CountryRegionCode
+	LEFT JOIN
+		DimCountryCurrency AS dcc2 ON dcc.CountryRegionCode = dcc2.CountryRegionCode
+	LEFT JOIN
+		DimExchangeRate AS dex ON fsh.OrderDate = dex.CurrencyRateDate AND dcc2.CurrencyCode = dex.ToCurrencyCode
 	WHERE
 		fsh.OrderDate >= '2011-05-31'
 		AND fsh.OrderDate <= '2014-05-31'
 )
-, main_unpivoted AS (
-    SELECT *
-    FROM main
+, SalesHeatmapUnpivotedQuery AS (
+    SELECT
+	*
+    FROM
+	SalesHeatmapQuery
     UNPIVOT
-        (Value FOR ValueType IN ("SubTotal (USD)", "TaxAmt (USD)", "Freight (USD)")) AS unpvt
+        (Value FOR ValueType IN ("SubTotal (USD)", "Tax (USD)", "Freight (USD)")) AS unpvt
 )
 
-SELECT *
-FROM main_unpivoted;
+SELECT
+	*
+FROM
+	SalesHeatmapUnpivotedQuery;
