@@ -1,10 +1,10 @@
 SELECT
-    pa.AddressID
+	pa.AddressID
 	, pbea.BusinessEntityID
-    , pa.AddressLine1
-    , pa.City
-    , pa.PostalCode
-    , psp.[Name] AS ProvinceStateName
+	, pa.AddressLine1
+	, pa.City
+	, pa.PostalCode
+	, psp.[Name] AS ProvinceStateName
 	, pat.[Name] AS AddressType
 	, pea.EmailAddress
 	, ppp.PhoneNumber
@@ -14,11 +14,11 @@ SELECT
 	, pcr.[Name] AS CountryName
 	, sst.[Group] AS CountryGroup
 FROM 
-    Person.[Address] AS pa
+	Person.[Address] AS pa
 INNER JOIN
 	Person.BusinessEntityAddress AS pbea ON pa.AddressID = pbea.AddressID
 INNER JOIN
-    Person.StateProvince AS psp ON pa.StateProvinceID = psp.StateProvinceID
+	Person.StateProvince AS psp ON pa.StateProvinceID = psp.StateProvinceID
 INNER JOIN
 	Person.AddressType AS pat ON pbea.AddressTypeID = pat.AddressTypeID 
 INNER JOIN
