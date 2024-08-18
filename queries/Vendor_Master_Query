@@ -20,21 +20,21 @@
 	Returns:
 		A single table containing:
 
-	+---------------------+---------------------------------------------+-------------------+
-	| Field               | Description                                 | Data Type         |
-	+---------------------+---------------------------------------------+-------------------+
-	| dv.BusinessEntityID | Unique identifier for the vendor            | int               |
-	| dv.AccountNumber    | Account number associated with the vendor   | nvarchar(15)      |
-	| VendorName          | Name of the vendor                          | nvarchar(50)      |
-	| AddressType         | Type of the address (e.g., Main Office)     | nvarchar(50)      |
-	| AddressLine1        | First line of the vendor's address          | nvarchar(60)      |
-	| AddressLine2        | Second line of the vendor's address         | nvarchar(60)      |
-	| City                | City where the vendor is located            | nvarchar(30)      |
-	| PostalCode          | Postal code of the vendor's address         | nvarchar(15)      |
-	| StateProvince       | Name of the state or province               | nvarchar(50)      |
-	| Territory           | Name of the sales territory                 | nvarchar(50)      |
-	| Country             | Name of the country                         | nvarchar(50)      |
-	+---------------------+---------------------------------------------+-------------------+
+	+-------------------------+---------------------------------------------+-------------------+
+	| Field                   | Description                                 | Data Type         |
+	+-------------------------+---------------------------------------------+-------------------+
+	| dv.BusinessEntityID     | Unique identifier for the vendor            | int               |
+	| dv.AccountNumber        | Account number associated with the vendor   | nvarchar(15)      |
+	| dv.VendorName           | Name of the vendor                          | nvarchar(50)      |
+	| dat.AddressType         | Type of the address (e.g., Main Office)     | nvarchar(50)      |
+	| dva.AddressLine1        | First line of the vendor's address          | nvarchar(60)      |
+	| dva.AddressLine2        | Second line of the vendor's address         | nvarchar(60)      |
+	| dva.City                | City where the vendor is located            | nvarchar(30)      |
+	| dva.PostalCode          | Postal code of the vendor's address         | nvarchar(15)      |
+	| dsp.StateProvince       | Name of the state or province               | nvarchar(50)      |
+	| dt.Territory            | Name of the sales territory                 | nvarchar(50)      |
+	| dc.Country              | Name of the country                         | nvarchar(50)      |
+	+-------------------------+---------------------------------------------+-------------------+
 
 
 	Usage:
