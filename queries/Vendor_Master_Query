@@ -1,0 +1,123 @@
+WITH DimVendors AS (
+	SELECT
+		BusinessEntityID
+		, AccountNumber
+		, [Name] --VendorName
+		, CreditRating
+		, PreferredVendorStatus
+		, ActiveFlag
+	FROM
+		Purchasing.Vendor
+)
+, DimVendorAddressID AS (
+	SELECT
+		BusinessEntityID
+		, AddressID
+		, AddressTypeID
+	FROM
+		Person.BusinessEntityAddress
+)
+, DimVendorAddress AS (
+	SELECT
+		AddressID
+		, AddressLine1
+		, AddressLine2
+		, City
+		, StateProvinceID
+		, PostalCode
+		, SpatialLocation
+	FROM
+		Person.[Address]
+)
+, DimAddressType AS (
+	SELECT
+		AddressTypeID
+		, [Name] --AddressType
+	FROM
+		Person.AddressType
+)
+, DimStateProvince AS (
+	SELECT 
+		StateProvinceID
+		, [Name] --ProvinceStateName
+		, TerritoryID
+	FROM
+		Person.StateProvince
+)
+, DimTerritory AS (
+	SELECT
+		TerritoryID
+		, [Name] --TerritoryName
+		, CountryRegionCode
+	FROM
+		Sales.SalesTerritory
+)
+, DimCountry AS (
+	SELECT
+		CountryRegionCode
+		, [Name] --Country
+	FROM
+		Person.CountryRegion
+)
+, DimPhoneNumber AS (
+	SELECT
+		BusinessEntityID
+		, PhoneNumber
+	FROM
+		Person.PersonPhone
+)
+, DimEmail AS (
+	SELECT
+		BusinessEntityID
+		, EmailAddress
+	FROM
+		Person.EmailAddress
+)
+, DimPerson AS (
+	SELECT
+		BusinessEntityID
+		, PersonType
+		, FirstName
+		, LastName
+	FROM
+		Person.Person
+)
+, VendorMasterQuery AS (
+	SELECT
+		dv.BusinessEntityID
+		, dv.AccountNumber
+		, dv.[Name] AS VendorName
+		, dat.[Name] AS AddressType
+		, dva.AddressLine1
+		, dva.AddressLine2
+		, dva.City
+		, dva.PostalCode
+		, dsp.[Name] AS StateProvince
+		, dt.[Name] AS Territory
+		, dc.[Name] AS Country
+	FROM
+		DimVendors AS dv
+	LEFT JOIN
+		DimVendorAddressID AS dvaid ON dv.BusinessEntityID = dvaid.BusinessEntityID
+	LEFT JOIN
+		DimVendorAddress AS dva ON dva.AddressID = dvaid.AddressID
+	LEFT JOIN
+		DimAddressType AS dat ON dvaid.AddressTypeID = dat.AddressTypeID
+	LEFT JOIN
+		DimStateProvince AS dsp ON dva.StateProvinceID = dsp.StateProvinceID
+	LEFT JOIN
+		DimTerritory AS dt ON dsp.TerritoryID = dt.TerritoryID
+	LEFT JOIN
+		DimCountry AS dc ON dt.CountryRegionCode = dc.CountryRegionCode
+	LEFT JOIN
+		DimPhoneNumber AS dpn ON dv.BusinessEntityID = dpn.BusinessEntityID
+	LEFT JOIN
+		DimEmail AS de ON dv.BusinessEntityID = de.BusinessEntityID
+	LEFT JOIN
+		DimPerson AS dp ON dv.BusinessEntityID = dp.BusinessEntityID
+)
+
+SELECT
+	*
+FROM
+	VendorMasterQuery
