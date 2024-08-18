@@ -59,29 +59,6 @@ WITH DimVendors AS (
 	FROM
 		Person.CountryRegion
 )
-, DimPhoneNumber AS (
-	SELECT
-		BusinessEntityID
-		, PhoneNumber
-	FROM
-		Person.PersonPhone
-)
-, DimEmail AS (
-	SELECT
-		BusinessEntityID
-		, EmailAddress
-	FROM
-		Person.EmailAddress
-)
-, DimPerson AS (
-	SELECT
-		BusinessEntityID
-		, PersonType
-		, FirstName
-		, LastName
-	FROM
-		Person.Person
-)
 , VendorMasterQuery AS (
 	SELECT
 		dv.BusinessEntityID
@@ -109,12 +86,6 @@ WITH DimVendors AS (
 		DimTerritory AS dt ON dsp.TerritoryID = dt.TerritoryID
 	LEFT JOIN
 		DimCountry AS dc ON dt.CountryRegionCode = dc.CountryRegionCode
-	LEFT JOIN
-		DimPhoneNumber AS dpn ON dv.BusinessEntityID = dpn.BusinessEntityID
-	LEFT JOIN
-		DimEmail AS de ON dv.BusinessEntityID = de.BusinessEntityID
-	LEFT JOIN
-		DimPerson AS dp ON dv.BusinessEntityID = dp.BusinessEntityID
 )
 
 SELECT
