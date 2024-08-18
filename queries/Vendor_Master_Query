@@ -1,3 +1,60 @@
+/*
+	Author: 
+		[Your Name]
+
+	Date:
+		2024-08-17
+
+	Purpose:
+		To create a comprehensive vendor master list that includes vendor details, addresses, and geographical data.
+
+	Database:
+		AdventureWorks2014
+
+	Dependencies:
+		None
+
+	Notes: 
+		This query utilizes Common Table Expressions (CTEs) to simplify the retrieval of data from multiple related tables and to structure the final result set for ease of analysis.
+
+	Returns:
+		A single table containing:
+
+	+---------------------+---------------------------------------------+-------------------+
+	| Field               | Description                                 | Data Type         |
+	+---------------------+---------------------------------------------+-------------------+
+	| dv.BusinessEntityID | Unique identifier for the vendor            | int               |
+	| dv.AccountNumber    | Account number associated with the vendor   | nvarchar(15)      |
+	| VendorName          | Name of the vendor                          | nvarchar(50)      |
+	| AddressType         | Type of the address (e.g., Main Office)     | nvarchar(50)      |
+	| AddressLine1        | First line of the vendor's address          | nvarchar(60)      |
+	| AddressLine2        | Second line of the vendor's address         | nvarchar(60)      |
+	| City                | City where the vendor is located            | nvarchar(30)      |
+	| PostalCode          | Postal code of the vendor's address         | nvarchar(15)      |
+	| StateProvince       | Name of the state or province               | nvarchar(50)      |
+	| Territory           | Name of the sales territory                 | nvarchar(50)      |
+	| Country             | Name of the country                         | nvarchar(50)      |
+	+---------------------+---------------------------------------------+-------------------+
+
+
+	Usage:
+		This query is designed to extract a detailed vendor master list, which can be used for reporting, auditing, and integrating with other vendor management systems.
+		The data can be exported to Excel or other tools for further analysis or integration.
+
+	Assumptions:
+		The database schema follows the AdventureWorks2014 standard.
+		Vendors are uniquely identified by their BusinessEntityID, and each vendor can have multiple addresses.
+
+	Modifications and Maintenance:
+		None.
+
+	Challenges and Solutions:
+		None.
+
+	Revision History:
+		2024-08-17: Initial creation by Patrick Mckown.
+*/
+
 WITH DimVendors AS (
 	SELECT
 		BusinessEntityID
