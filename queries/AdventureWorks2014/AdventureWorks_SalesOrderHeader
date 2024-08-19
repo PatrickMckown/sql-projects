@@ -1,0 +1,76 @@
+/*
+Documentation
+
+	Author:
+		Patrick Mckown
+
+	Date:
+		2024-08-17
+
+	Purpose: 
+		Retrieve key sales order details, including dates, customer information, and financial totals, for analysis and reporting.
+
+	Database:
+		AdventureWorks2014
+
+	Dependencies:
+		None
+
+	Notes:
+		This query extracts and formats core sales order data, focusing on the financial and logistical aspects.
+
+	Returns:
+		A single table containing:
+
+		+------------------+--------------------------------------------------+-------------------+
+		| Field            | Description                                      | Data Type         |
+		+------------------+--------------------------------------------------+-------------------+
+		| SalesOrderID     | Unique identifier for the sales order            | int               |
+		| OrderDate        | Date when the order was placed                   | date              |
+		| ShipDate         | Date when the order was shipped                  | date              |
+		| CustomerID       | Unique identifier for the customer               | int               |
+		| ShipToAddressID  | Identifier for the address to which the order    | int               |
+		|                  | was shipped                                      |                   |
+		| BillToAddressID  | Identifier for the address to which the bill was | int               |
+		|                  | sent                                             |                   |
+		| ShipMethodID     | FK for ship method/incoterms					  | int				  |
+		| SubTotal         | Subtotal amount before taxes and shipping        | money             |
+		| TaxAmt           | Tax amount applied to the order                  | money             |
+		| Freight          | Shipping cost for the order                      | money             |
+		| TotalDue         | Total amount due, including taxes and shipping   | money             |
+		+------------------+--------------------------------------------------+-------------------+
+
+	Usage:
+		This query is designed to extract essential sales order information, particularly focusing on financial details like subtotal, tax, freight, and total due.
+		The data can be exported to Excel, Power BI, or other tools for financial analysis, reporting, and reconciliation purposes.
+
+	Assumptions:
+		The database schema follows the AdventureWorks2014 standard.
+		Sales orders are uniquely identified by their SalesOrderID, and each order has associated financial and logistical data.
+
+	Modifications and Maintenance:
+		None.
+
+	Challenges and Solutions:
+		Challenge: Ensuring accurate date formatting for order and ship dates.
+		Solution: Used CAST to convert OrderDate and ShipDate to the date data type, ensuring consistency and ease of use in reporting.
+
+	Revision History:
+		2024-08-17: Initial creation by Patrick Mckown.
+		2024-08-18: Revised to add in ShipMethodID
+*/
+
+SELECT
+    SalesOrderID
+    , CAST (OrderDate AS date) AS OrderDate
+    , CAST (ShipDate AS date) AS ShipDate
+    , CustomerID
+    , ShipToAddressID
+    , BillToAddressID
+	  , ShipMethodID
+    , SubTotal
+    , TaxAmt
+    , Freight
+    , TotalDue
+FROM
+    Sales.SalesOrderHeader
