@@ -1,0 +1,109 @@
+1. Level 1: Foundations
+1.1 Basic SELECTs
+* 1.1.1 SELECT and FROM
+* 1.1.2 Selecting specific columns
+* 1.1.3 Aliasing columns (AS)
+
+1.2 Filtering Data
+* 1.2.1 WHERE clause
+* 1.2.2 Comparison operators (=, <>, >, <)
+* 1.2.3 Logical operators (AND, OR, NOT)
+* 1.2.4 BETWEEN, IN, LIKE
+
+1.3 Sorting & Limiting
+* 1.3.1 ORDER BY basics
+* 1.3.2 ASC, DESC
+* 1.3.3 LIMIT
+
+1.4 Basic Functions
+* 1.4.1 UPPER(), LOWER(), LEN(), TRIM()
+* 1.4.2 NOW(), CURRENT_DATE()
+* 1.4.3 COALESCE(), NULLIF()
+
+1.5 Aggregations
+* 1.5.1 COUNT(), SUM(), AVG(), MIN(), MAX()
+* 1.5.2 GROUP BY and HAVING
+
+1.6 Joins Intro
+* 1.6.1 INNER JOIN
+* 1.6.2 LEFT JOIN
+* 1.6.3 Join syntax and aliases
+* 1.6.4 Using keys to join
+
+2. Level 2: Logic & Transformations
+2.1 Advanced Joins
+* 2.1.1 RIGHT JOIN, FULL JOIN
+* 2.1.2 SELF JOIN
+* 2.1.3 Multi-table joins
+
+2.2 CASE Statements
+* 2.2.1 Simple CASE WHEN
+* 2.2.2 Nested conditions
+* 2.2.3 Conditional aggregation
+
+2.3 Subqueries
+* 2.3.1 In SELECT
+* 2.3.2 In WHERE and FROM
+* 2.3.3 Correlated subqueries
+
+2.4 Window Functions
+* 2.4.1 OVER() clause basics
+* 2.4.2 ROW_NUMBER(), RANK(), DENSE_RANK()
+* 2.4.3 PARTITION BY and ORDER BY
+* 2.4.4 LAG(), LEAD(), FIRST_VALUE(), LAST_VALUE()
+
+2.5 CTEs (Common Table Expressions)
+* 2.5.1 WITH clause basics
+* 2.5.2 Chaining multiple CTEs
+* 2.5.3 When to use CTE vs subquery
+
+2.6 Date & Time Functions
+* 2.6.1 Extracting parts: YEAR(), MONTH(), DAY()
+* 2.6.2 Date math: DATEADD, DATEDIFF
+* 2.6.3 Formatting dates
+
+2.7 Data Types & Casting
+* 2.7.1 Core Snowflake data types
+* 2.7.2 CAST() and TRY_CAST()
+* 2.7.3 Implicit vs explicit conversion
+
+3. Level 3: Performance, Design, and Optimization
+3.1 Advanced Windowing
+* 3.1.1 Moving averages
+* 3.1.2 Cumulative sums
+* 3.1.3 Percentiles and ranking across partitions
+
+3.2 Pivot & Unpivot
+* 3.2.1 Manual pivot with CASE
+* 3.2.2 Unpivoting with UNPIVOT, FLATTEN
+* 3.2.3 Dynamic SQL for pivots (procedures)
+
+3.3 Stored Procedures & Scripting
+* 3.3.1 Basic BEGIN...END blocks
+* 3.3.2 Variables and control flow (IF, FOR, WHILE)
+* 3.3.3 EXECUTE IMMEDIATE
+* 3.3.4 Error handling
+
+3.4 User Defined Functions (UDFs)
+* 3.4.1 Scalar UDFs
+* 3.4.2 SQL vs JavaScript UDFs
+* 3.4.3 When to use UDFs
+
+3.5 Performance Tuning
+* 3.5.1 Query profiling and EXPLAIN
+* 3.5.2 Caching behavior in Snowflake
+* 3.5.3 Minimizing data scanned
+* 3.5.4 Efficient join strategies
+* 3.5.5 Filter early, cast once
+
+3.6 Data Modeling Concepts
+* 3.6.1 Star schema vs snowflake schema
+* 3.6.2 Fact and dimension tables
+* 3.6.3 Surrogate keys
+
+3.7 Data Loading & Integration
+* 3.7.1 COPY INTO from Stage
+* 3.7.2 Working with CSVs, JSON, Parquet
+* 3.7.3 Using external stages (S3, Azure Blob)
+* 3.7.4 File format objects
+
