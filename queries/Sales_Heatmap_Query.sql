@@ -39,120 +39,122 @@ Revision History:
     - 2024-07-04: Elimination of Customer Name field and CTE. Field has too many null values to be useful in analysis.
 */
 
-WITH FactSalesHeader AS (
-	SELECT
-		SalesOrderID
-		, CAST (OrderDate AS date) AS OrderDate
-		, CAST(ShipDate AS date) AS ShipDate
-		, CustomerID
-		, ShipToAddressID
-		, BillToAddressID
-		, SubTotal
-		, TaxAmt
-		, Freight
-	FROM
-		Sales.SalesOrderHeader
-)
-, DimCustomerAddress AS (
-	SELECT
-		AddressID
-		, AddressLine1
-		, City
-		, StateProvinceID
-		, PostalCode
-	FROM
-		Person.Address
-)
-, DimCustomerState AS (
-	SELECT
-		StateProvinceID
-		, [Name]
-	FROM
-		Person.StateProvince
-)
-, DimCustomerTerritory AS (
-	SELECT
-		CustomerID
-		, TerritoryID
-	FROM
-		Sales.Customer
-)
-, DimCustomerCountry AS (
-	SELECT
-		TerritoryID
-		, CountryRegionCode
-	FROM
-		Sales.SalesTerritory
-)
-, DimCountryNames AS (
-	SELECT
-		CountryRegionCode
-		, [Name]
-	FROM
-		Person.CountryRegion
-)
-, DimCountryCurrency AS (
-	SELECT 
-		CountryRegionCode
-		, CurrencyCode
-		, ModifiedDate
-	FROM (
-		SELECT CountryRegionCode, CurrencyCode, ModifiedDate,
-			   COUNT(*) OVER (PARTITION BY CountryRegionCode) as CodeCount
-		FROM Sales.CountryRegionCurrency
-	) AS subquery
-	WHERE
-		(CodeCount > 1 AND CurrencyCode = 'EUR')
-	OR
-		(CodeCount = 1)
-)
-, DimExchangeRate AS (
-	SELECT
-		CAST(CurrencyRateDate AS date) AS CurrencyRateDate
-		, ToCurrencyCode
-		, CASE
-			WHEN ToCurrencyCode = 'USD' THEN 1
-			ELSE 1 / AverageRate
-		END AS "LCtoUSDExchangeRate"
-	FROM
-		Sales.CurrencyRate
-)
-, SalesHeatmapQuery AS (
-	SELECT
-		fsh.SalesOrderID
-		, fsh.OrderDate
-		, fsh.ShipDate
-		, fsh.CustomerID
-		, fsh.BillToAddressID
-		, dcn.[Name] AS "CountryName"
-		, da.AddressLine1 AS "Address"
-		, da.City
-		, ds.[Name] AS "Province/State"
-		, da.PostalCode
-		, (fsh.SubTotal * dex.LCtoUSDExchangeRate) AS "SubTotal (USD)"
-		, (fsh.TaxAmt * dex.LCtoUSDExchangeRate) AS "TaxAmt (USD)"
-		, (fsh.Freight * dex.LCtoUSDExchangeRate) AS "Freight (USD)"
-	FROM 
-		FactSalesHeader AS fsh
-	LEFT JOIN 
-		DimCustomerAddress AS da ON fsh.BillToAddressID = da.AddressID
-	LEFT JOIN 
-		DimCustomerState AS ds ON ds.StateProvinceID = da.StateProvinceID
-	LEFT JOIN 
-		DimCustomerTerritory AS dct ON fsh.CustomerID = dct.CustomerID
-	LEFT JOIN 
-		DimCustomerCountry AS dcc ON dct.TerritoryID = dcc.TerritoryID
-	LEFT JOIN 
-		DimCountryNames AS dcn ON dcc.CountryRegionCode = dcn.CountryRegionCode
-	LEFT JOIN 
-		DimCountryCurrency AS dcc2 ON dcc.CountryRegionCode = dcc2.CountryRegionCode
-	LEFT JOIN 
-		DimExchangeRate AS dex ON fsh.OrderDate = dex.CurrencyRateDate AND dcc2.CurrencyCode = dex.ToCurrencyCode
-	WHERE
-		fsh.OrderDate >= '2011-05-31'
-		AND fsh.OrderDate <= '2014-05-31'
-)
+WITH 
+	FactSalesHeader AS (
+		SELECT
+			SalesOrderID
+			, CAST(OrderDate AS date) AS OrderDate
+			, CAST(ShipDate AS date) AS ShipDate
+			, CustomerID
+			, ShipToAddressID
+			, BillToAddressID
+			, SubTotal
+			, TaxAmt
+			, Freight
+		FROM
+			Sales.SalesOrderHeader
+	)
+	, DimCustomerAddress AS (
+		SELECT
+			AddressID
+			, AddressLine1
+			, City
+			, StateProvinceID
+			, PostalCode
+		FROM
+			Person.Address
+	)
+	, DimCustomerState AS (
+		SELECT
+			StateProvinceID
+			, [Name]
+		FROM
+			Person.StateProvince
+	)
+	, DimCustomerTerritory AS (
+		SELECT
+			CustomerID
+			, TerritoryID
+		FROM
+			Sales.Customer
+	)
+	, DimCustomerCountry AS (
+		SELECT
+			TerritoryID
+			, CountryRegionCode
+		FROM
+			Sales.SalesTerritory
+	)
+	, DimCountryNames AS (
+		SELECT
+			CountryRegionCode
+			, [Name]
+		FROM
+			Person.CountryRegion
+	)
+	, DimCountryCurrency AS (
+		SELECT 
+			CountryRegionCode
+			, CurrencyCode
+			, ModifiedDate
+		FROM (
+			SELECT CountryRegionCode, CurrencyCode, ModifiedDate,
+				COUNT(*) OVER (PARTITION BY CountryRegionCode) AS CodeCount
+			FROM Sales.CountryRegionCurrency
+		) AS subquery
+		WHERE
+			(CodeCount > 1 AND CurrencyCode = 'EUR')
+		OR
+			(CodeCount = 1)
+	)
+	, DimExchangeRate AS (
+		SELECT
+			CAST(CurrencyRateDate AS date) AS CurrencyRateDate
+			, ToCurrencyCode
+			, CASE
+				WHEN ToCurrencyCode = 'USD' THEN 1
+				ELSE 1 / AverageRate
+			END AS "LCtoUSDExchangeRate"
+		FROM
+			Sales.CurrencyRate
+	)
+	, SalesHeatmapQuery AS (
+		SELECT
+			fsh.SalesOrderID
+			, fsh.OrderDate
+			, fsh.ShipDate
+			, fsh.CustomerID
+			, fsh.BillToAddressID
+			, dcn.[Name] AS "CountryName"
+			, da.AddressLine1 AS "Address"
+			, da.City
+			, ds.[Name] AS "Province/State"
+			, da.PostalCode
+			, (fsh.SubTotal * dex.LCtoUSDExchangeRate) AS "SubTotal (USD)"
+			, (fsh.TaxAmt * dex.LCtoUSDExchangeRate) AS "TaxAmt (USD)"
+			, (fsh.Freight * dex.LCtoUSDExchangeRate) AS "Freight (USD)"
+		FROM 
+			FactSalesHeader AS fsh
+		LEFT JOIN 
+			DimCustomerAddress AS da ON fsh.BillToAddressID = da.AddressID
+		LEFT JOIN 
+			DimCustomerState AS ds ON ds.StateProvinceID = da.StateProvinceID
+		LEFT JOIN 
+			DimCustomerTerritory AS dct ON fsh.CustomerID = dct.CustomerID
+		LEFT JOIN 
+			DimCustomerCountry AS dcc ON dct.TerritoryID = dcc.TerritoryID
+		LEFT JOIN 
+			DimCountryNames AS dcn ON dcc.CountryRegionCode = dcn.CountryRegionCode
+		LEFT JOIN 
+			DimCountryCurrency AS dcc2 ON dcc.CountryRegionCode = dcc2.CountryRegionCode
+		LEFT JOIN 
+			DimExchangeRate AS dex ON fsh.OrderDate = dex.CurrencyRateDate AND dcc2.CurrencyCode = dex.ToCurrencyCode
+		WHERE
+			fsh.OrderDate >= '2011-05-31'
+			AND fsh.OrderDate <= '2014-05-31'
+	)
 
-SELECT *
+SELECT
+	*
 FROM
 	SalesHeatmapQuery;
