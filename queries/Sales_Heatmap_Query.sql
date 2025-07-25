@@ -151,7 +151,8 @@ WITH
 			DimExchangeRate AS dex ON fsh.OrderDate = dex.CurrencyRateDate AND dcc2.CurrencyCode = dex.ToCurrencyCode
 		WHERE
 			fsh.OrderDate >= '2011-05-31'
-			AND fsh.OrderDate <= '2014-05-31'
+		AND
+			fsh.OrderDate <= '2014-05-31'
 	)
 
 SELECT
