@@ -148,10 +148,8 @@ WITH
 			DimCustomerAddress AS da ON fsh.BillToAddressID = da.AddressID
 		LEFT JOIN 
 			DimCustomerState AS ds ON ds.StateProvinceID = da.StateProvinceID
-			LEFT JOIN 
-				DimCustomerTerritory AS dct 
-					ON 
-						fsh.CustomerID = dct.CustomerID
+		LEFT JOIN 
+			DimCustomerTerritory AS dct ON fsh.CustomerID = dct.CustomerID
 		LEFT JOIN 
 			DimCustomerCountry AS dcc ON dct.TerritoryID = dcc.TerritoryID
 		LEFT JOIN 
