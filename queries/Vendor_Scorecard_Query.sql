@@ -26,80 +26,100 @@ Revision History:
 	- 2024-07-14: Initial release by Patrick McKown.
 */
 
-WITH FactPOHeader AS (
-	SELECT
-		PurchaseOrderID
-		, VendorID
-		, ShipMethodID
-		, OrderDate
-		, ShipDate
-	FROM
-		Purchasing.PurchaseOrderHeader
-)
-, FactPODetails AS (
-	SELECT
-		PurchaseOrderID
-		, PurchaseOrderDetailID
-		, ProductID
-		, OrderQty
-		, UnitPrice
-		, LineTotal
-		, ReceivedQty
-		, RejectedQty
-	FROM
-		Purchasing.PurchaseOrderDetail
-)
-, DimMode AS (
-	SELECT
-		ShipMethodID
-		, [Name]  --Shipping Mode
-		, ShipBase
-		, ShipRate
-	FROM Purchasing.ShipMethod
-)
-, DimProductVendor AS (
-	SELECT
-		ProductID
-		, BusinessEntityID
-		, StandardPrice
-		, LastReceiptCost
-	FROM Purchasing.ProductVendor
-)
-, DimVendorName AS (
-	SELECT
-		BusinessEntityID
-		, [Name] --Vendor Name
-	FROM Purchasing.Vendor
-)
-, DimProductDesc AS (
-	SELECT
-		ProductID
-		, [Name]
-		, ProductNumber
-		, StandardCost
-		, ListPrice
-	FROM Production.Product
-)
-, VendorScorecardQuery AS (
-SELECT
-	fpd.PurchaseOrderID
-	, fpd.PurchaseOrderDetailID
-	, fph.ShipMethodID
-	, dm.[Name] AS ShipMode
-	, fpd.ProductID
-	, dpd.ProductNumber
-	, dpd.[Name] AS ProductName
-	, dpv.BusinessEntityID
-	, dvn.[Name] AS VendorName
-	, dpd.StandardCost
-	, dpd.ListPrice
-FROM FactPODetails AS fpd
-LEFT JOIN FactPOHeader AS fph ON fpd.PurchaseOrderID = fph.PurchaseOrderID
-INNER JOIN DimProductDesc AS dpd ON fpd.ProductID = dpd.ProductID
-LEFT JOIN DimProductVendor AS dpv ON fpd.ProductID = dpv.ProductID
-LEFT JOIN DimVendorName AS dvn ON dpv.BusinessEntityID = dvn.BusinessEntityID
-LEFT JOIN DimMode AS dm ON fph.ShipMethodID = dm.ShipMethodID
-)
+/* Principles 
+	1. Use CTEs to break down complex queries into manageable parts
+	2. Explicitly used "Fact" and "Dim" to deliniate between tables that contain transactional data (Fact) and those that contain descriptive data (Dim) 
+	3. Aliased columns early 
+	4. Maintain consistent formatting for readability (leading commas, single spaces to separate characters, single tab indentation to indicate subordinate clauses).
+*/
 
-SELECT *
-FROM VendorScorecardQuery
+WITH 
+	FactPOHeader AS (
+		SELECT
+			PurchaseOrderID
+			, VendorID
+			, ShipMethodID
+			, OrderDate
+			, ShipDate
+		FROM
+			Purchasing.PurchaseOrderHeader
+	)
+	, FactPODetails AS (
+		SELECT
+			PurchaseOrderID
+			, PurchaseOrderDetailID
+			, ProductID
+			, OrderQty
+			, UnitPrice
+			, LineTotal
+			, ReceivedQty
+			, RejectedQty
+		FROM
+			Purchasing.PurchaseOrderDetail
+	)
+	, DimMode AS (
+		SELECT
+			ShipMethodID
+			, [Name] AS "ShippingMode"
+			, ShipBase
+			, ShipRate
+		FROM
+			Purchasing.ShipMethod
+	)
+	, DimProductVendor AS (
+		SELECT
+			ProductID
+			, BusinessEntityID
+			, StandardPrice
+			, LastReceiptCost
+		FROM
+			Purchasing.ProductVendor
+	)
+	, DimVendorName AS (
+		SELECT
+			BusinessEntityID
+			, [Name] AS "VendorName"
+		FROM
+			Purchasing.Vendor
+	)
+	, DimProductDesc AS (
+		SELECT
+			ProductID
+			, [Name] AS "ProductName"
+			, ProductNumber
+			, StandardCost
+			, ListPrice
+		FROM
+			Production.Product
+	)
+	, VendorScorecardQuery AS (
+		SELECT
+			fpd.PurchaseOrderID
+			, fpd.PurchaseOrderDetailID
+			, fph.ShipMethodID
+			, dm.ShippingMode
+			, fpd.ProductID
+			, dpd.ProductNumber
+			, dpd.ProductName
+			, dpv.BusinessEntityID
+			, dvn.VendorName
+			, dpd.StandardCost
+			, dpd.ListPrice
+		FROM
+			FactPODetails AS fpd
+		LEFT JOIN
+			FactPOHeader AS fph ON fpd.PurchaseOrderID = fph.PurchaseOrderID
+		INNER JOIN
+			DimProductDesc AS dpd ON fpd.ProductID = dpd.ProductID
+		LEFT JOIN
+			DimProductVendor AS dpv ON fpd.ProductID = dpv.ProductID
+		LEFT JOIN
+			DimVendorName AS dvn ON dpv.BusinessEntityID = dvn.BusinessEntityID
+		LEFT JOIN
+			DimMode AS dm ON fph.ShipMethodID = dm.ShipMethodID
+	)
+
+SELECT
+	*
+FROM
+	VendorScorecardQuery;
