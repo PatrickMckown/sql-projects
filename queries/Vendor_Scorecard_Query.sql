@@ -30,7 +30,9 @@ Revision History:
 	1. Use CTEs to break down complex queries into manageable parts
 	2. Explicitly used "Fact" and "Dim" to deliniate between tables that contain transactional data (Fact) and those that contain descriptive data (Dim) 
 	3. Aliased columns early 
-	4. Maintain consistent formatting for readability (leading commas, single spaces to separate characters, single tab indentation to indicate subordinate clauses).
+	4. Used leading commas to easily identify when a comma is missing
+	5. Consistently used single spaces to separate characters
+	6. Used single tab indentation to indicate subordinate clauses and collapse sections in the editor
 */
 
 WITH 
