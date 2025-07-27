@@ -39,6 +39,15 @@ Revision History:
     - 2024-07-04: Elimination of Customer Name field and CTE. Field has too many null values to be useful in analysis.
 */
 
+/* Principles 
+	1. Use CTEs to break down complex queries into manageable parts
+	2. Explicitly used "Fact" and "Dim" to deliniate between tables that contain transactional data (Fact) and those that contain descriptive data (Dim) 
+	3. Aliased columns early 
+	4. Used leading commas to easily identify when a comma is missing
+	5. Consistently used single spaces to separate characters
+	6. Used single tab indentation to indicate subordinate clauses and collapse sections in the editor
+*/
+
 WITH 
 	FactSalesHeader AS (
 		SELECT
@@ -139,8 +148,10 @@ WITH
 			DimCustomerAddress AS da ON fsh.BillToAddressID = da.AddressID
 		LEFT JOIN 
 			DimCustomerState AS ds ON ds.StateProvinceID = da.StateProvinceID
-		LEFT JOIN 
-			DimCustomerTerritory AS dct ON fsh.CustomerID = dct.CustomerID
+			LEFT JOIN 
+				DimCustomerTerritory AS dct 
+					ON 
+						fsh.CustomerID = dct.CustomerID
 		LEFT JOIN 
 			DimCustomerCountry AS dcc ON dct.TerritoryID = dcc.TerritoryID
 		LEFT JOIN 
