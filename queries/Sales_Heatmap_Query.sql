@@ -66,7 +66,7 @@ WITH
 	, DimCustomerAddress AS (
 		SELECT
 			AddressID
-			, AddressLine1
+			, AddressLine1 AS "Address"
 			, City
 			, StateProvinceID
 			, PostalCode
@@ -76,7 +76,7 @@ WITH
 	, DimCustomerState AS (
 		SELECT
 			StateProvinceID
-			, [Name]
+			, [Name] AS "StateProvinceName"
 		FROM
 			Person.StateProvince
 	)
@@ -97,7 +97,7 @@ WITH
 	, DimCountryNames AS (
 		SELECT
 			CountryRegionCode
-			, [Name]
+			, [Name] AS "CountryName"
 		FROM
 			Person.CountryRegion
 	)
@@ -134,10 +134,10 @@ WITH
 			, fsh.ShipDate
 			, fsh.CustomerID
 			, fsh.BillToAddressID
-			, dcn.[Name] AS "CountryName"
-			, da.AddressLine1 AS "Address"
+			, dcn.CountryName
+			, da.Address
 			, da.City
-			, ds.[Name] AS "Province/State"
+			, ds.StateProvinceName
 			, da.PostalCode
 			, (fsh.SubTotal * dex.LCtoUSDExchangeRate) AS "SubTotal (USD)"
 			, (fsh.TaxAmt * dex.LCtoUSDExchangeRate) AS "TaxAmt (USD)"
